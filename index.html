@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nata Bakery - Kehangatan Manis Setiap Hari 🍞✨</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans untuk vibe fresh & friendly -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FFF9F2',
+                        warmOrange: '#FF8A00',
+                        softPink: '#FFEDE8',
+                        warmBrown: '#5C3A21',
+                        accentYellow: '#FFC72C'
+                    },
+                    fontFamily: {
+                        heading: ['Fredoka', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFF9F2;
+            color: #5C3A21;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF9F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF8A00;
+            border-radius: 9999px;
+        }
+        /* Receipt Print Styling */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-receipt, #printable-receipt * {
+                visibility: visible;
+            }
+            #printable-receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
+                background: white;
+                color: black;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-cream text-warmBrown min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-orange-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-full bg-warmOrange text-white flex items-center justify-center font-bold text-xl group-hover:rotate-12 transition-transform shadow-md">
+                    🥐
+                </div>
+                <div>
+                    <span class="text-2xl font-bold text-warmOrange tracking-wide font-heading block leading-none">Nata Bakery</span>
+                    <span class="text-[10px] text-orange-400 font-medium tracking-wider">FRESHLY BAKED EVERYDAY</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 font-semibold text-sm">
+                <a href="#home" class="hover:text-warmOrange transition-colors">Beranda</a>
+                <a href="#tentang" class="hover:text-warmOrange transition-colors">Tentang Kami</a>
+                <a href="#katalog" class="hover:text-warmOrange transition-colors">Katalog Roti</a>
+                <a href="#kontak" class="hover:text-warmOrange transition-colors">Kontak & Lokasi</a>
+            </nav>
+
+            <!-- Cart Trigger Button -->
+            <button onclick="toggleCartModal()" class="relative bg-warmOrange hover:bg-orange-600 text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95">
+                <i class="fa-solid fa-basket-shopping text-lg"></i>
+                <span class="hidden sm:inline">Keranjang</span>
+                <span id="cart-badge" class="bg-white text-warmOrange text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border border-orange-200">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden py-12 md:py-20 px-4 max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="space-y-6 text-center md:text-left">
+                <span class="bg-orange-100 text-warmOrange px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider inline-block shadow-sm">
+                    ✨ Kehangatan Roti Segar Langsung Dari Oven
+                </span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-warmBrown leading-tight">
+                    Roti Manis & Lembut Buat Hari Kamu <span class="text-warmOrange underline decoration-accentYellow">Lebih Ceria!</span> 🍰
+                </h1>
+                <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
+                    Dibuat dari bahan-bahan pilihan berkualitas premium tanpa bahan pengawet. Temukan berbagai varian roti harum, kue lezat, dan pastry renyah khusus untukmu!
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start pt-2">
+                    <a href="#katalog" class="bg-warmOrange hover:bg-orange-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg hover:shadow-orange-200 transition-all flex items-center gap-2 transform hover:-translate-y-1">
+                        Pesan Roti Sekarang <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="https://wa.me/6281265091984" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg hover:shadow-emerald-200 transition-all flex items-center gap-2 transform hover:-translate-y-1">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+            <!-- Interactive Visual Banner -->
+            <div class="relative flex justify-center">
+                <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-3xl bg-gradient-to-tr from-amber-200 to-orange-300 absolute -bottom-4 -right-4 rotate-6 -z-10 blur-sm"></div>
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" alt="Nata Bakery Freshly Baked Bread" class="w-full max-w-md h-80 sm:h-96 object-cover rounded-3xl shadow-2xl border-4 border-white transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                <div class="absolute -bottom-6 left-4 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 border border-orange-100 animate-bounce">
+                    <span class="text-3xl">🥖</span>
+                    <div>
+                        <p class="font-bold text-xs text-gray-500">PROMO HARI INI</p>
+                        <p class="font-bold text-sm text-warmOrange">Diskon Spesial Keranjang!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami Section -->
+    <section id="tentang" class="py-12 bg-white/60 my-6">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-warmBrown font-heading mb-2">Kenapa Memilih Nata Bakery?</h2>
+                <p class="text-gray-600">Kami hadir membawa cita rasa autentik dan kelembutan roti terbaik untuk setiap momen berharga Anda.</p>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 hover:shadow-md transition-shadow text-center">
+                    <div class="w-14 h-14 bg-orange-100 text-warmOrange rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">
+                        🌾
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Bahan 100% Premium</h3>
+                    <p class="text-sm text-gray-600">Menggunakan tepung berkualitas, mentega murni, dan bahan alami tanpa obat pengawet buatan.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 hover:shadow-md transition-shadow text-center">
+                    <div class="w-14 h-14 bg-orange-100 text-warmOrange rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">
+                        🔥
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Dipanggang Setiap Pagi</h3>
+                    <p class="text-sm text-gray-600">Dijamin selalu hangat dan segar (freshly baked) langsung dari oven kitchen kami setiap hari.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 hover:shadow-md transition-shadow text-center">
+                    <div class="w-14 h-14 bg-orange-100 text-warmOrange rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">
+                        ❤️
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Resep Istimewa Cinta</h3>
+                    <p class="text-sm text-gray-600">Dibuat oleh baker berpengalaman dengan racikan bumbu manis-gurih yang bikin ketagihan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Katalog Produk Section -->
+    <section id="katalog" class="py-12 max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <span class="text-warmOrange font-bold text-sm tracking-wider uppercase">Menu Pilihan Populer</span>
+                <h2 class="text-3xl font-bold text-warmBrown font-heading">Katalog Roti Nata Bakery</h2>
+            </div>
+            <!-- Category Filter Buttons -->
+            <div id="category-filters" class="flex flex-wrap gap-2">
+                <button onclick="filterProducts('all')" class="filter-btn active bg-warmOrange text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm">Semua</button>
+                <button onclick="filterProducts('roti')" class="filter-btn bg-white text-warmBrown hover:bg-orange-50 px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-orange-100">Roti Manis</button>
+                <button onclick="filterProducts('pastry')" class="filter-btn bg-white text-warmBrown hover:bg-orange-50 px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-orange-100">Pastry & Donat</button>
+                <button onclick="filterProducts('cake')" class="filter-btn bg-white text-warmBrown hover:bg-orange-50 px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-orange-100">Cake & Bolu</button>
+            </div>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Injection via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Kontak & Lokasi Section -->
+    <section id="kontak" class="py-12 bg-white/80 border-t border-orange-100 mt-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-warmBrown font-heading mb-2">Kunjungi Toko Kami</h2>
+                <p class="text-gray-600">Ingin mencicipi harumnya roti langsung di tempat? Silakan mampir atau hubungi kami!</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Info Contact -->
+                <div class="space-y-6 bg-cream p-6 sm:p-8 rounded-3xl border border-orange-200">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-warmOrange text-white rounded-2xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-warmBrown">Nata Bakery Main Outlet</h4>
+                            <p class="text-sm text-gray-600 mt-1">Layanan pembelian langsung, takeaway, dan pemesanan jumlah besar (snackbox/acara).</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-warmBrown">WhatsApp Respon Cepat</h4>
+                            <a href="https://wa.me/6281265091984" target="_blank" class="text-emerald-600 font-semibold hover:underline text-sm">
+                                0812-6509-1984 (Klik untuk Chat)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-yellow-500 via-red-500 to-purple-600 text-white rounded-2xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-warmBrown">Instagram Resmi</h4>
+                            <a href="https://www.instagram.com/natta_bakery?rpxt=MXR4cXAzeXB0a3NibA==" target="_blank" class="text-pink-600 font-semibold hover:underline text-sm">
+                                @natta_bakery (Lihat Promo Terbaru)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <a href="https://share.google/t00KoO3zZysAlZ6Wq" target="_blank" class="w-full bg-warmBrown hover:bg-black text-white font-bold py-3 px-6 rounded-2xl text-center block transition-colors shadow-md">
+                            <i class="fa-solid fa-map-location-dot mr-2"></i> Buka Petunjuk Arah di Google Maps
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Google Maps Card Preview -->
+                <div class="bg-gray-200 rounded-3xl overflow-hidden h-80 shadow-md border-4 border-white relative flex flex-col justify-center items-center text-center p-6 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80');">
+                    <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-xl max-w-xs">
+                        <div class="text-4xl mb-2">📍</div>
+                        <h3 class="font-bold text-warmBrown text-lg font-heading">Lokasi Nata Bakery</h3>
+                        <p class="text-xs text-gray-600 mb-4">Temukan kami dengan mudah melalui Google Maps!</p>
+                        <a href="https://share.google/t00KoO3zZysAlZ6Wq" target="_blank" class="bg-warmOrange text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow hover:bg-orange-600 transition-colors inline-block">
+                            Lihat di Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-warmBrown text-orange-100 py-8 px-4 border-t border-amber-900">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <p class="font-bold text-lg font-heading text-white">Nata Bakery 🍞</p>
+                <p class="text-xs text-orange-200/80">Roti Segar, Lembut, & Penuh Kehangatan Setiap Hari.</p>
+            </div>
+            <div class="flex gap-4 text-xl">
+                <a href="https://wa.me/6281265091984" target="_blank" class="hover:text-emerald-400 transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/natta_bakery?rpxt=MXR4cXAzeXB0a3NibA==" target="_blank" class="hover:text-pink-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <p class="text-xs text-orange-200/60">&copy; 2026 Nata Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL KERANJANG & CHECKOUT -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex justify-end transition-opacity">
+        <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl justify-between overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-4 bg-orange-50 border-b border-orange-100 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🛍️</span>
+                    <h3 class="font-bold text-lg text-warmBrown font-heading">Keranjang Belanja</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="w-8 h-8 rounded-full bg-white text-gray-500 hover:text-black flex items-center justify-center border shadow-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Cart Items) -->
+            <div id="cart-items-container" class="p-4 flex-1 overflow-y-auto space-y-4">
+                <!-- Items Injected by JS -->
+            </div>
+
+            <!-- Modal Footer (Checkout Form & Action) -->
+            <div class="p-4 bg-orange-50/50 border-t border-orange-100 space-y-3">
+                <div class="space-y-1 text-sm">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal" class="font-semibold">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-warmOrange font-bold text-lg pt-1 border-t">
+                        <span>Total Pembayaran</span>
+                        <span id="cart-total">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Form Pemesan -->
+                <div class="space-y-2 pt-2">
+                    <input type="text" id="customer-name" placeholder="Nama Lengkap Anda" class="w-full text-sm p-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-warmOrange">
+                    
+                    <select id="payment-method" class="w-full text-sm p-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-warmOrange bg-white">
+                        <option value="">-- Pilih Metode Pembayaran --</option>
+                        <option value="Tunai / Kasir (Takeaway)">Tunai / Bayar di Kasir</option>
+                        <option value="Transfer Bank (BCA/Mandiri)">Transfer Bank</option>
+                        <option value="QRIS / E-Wallet (Gopay/OVO/Dana)">QRIS / E-Wallet</option>
+                    </select>
+                </div>
+
+                <button onclick="processPayment()" class="w-full bg-warmOrange hover:bg-orange-600 text-white font-bold py-3 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-credit-card"></i> Bayar & Buat Struk
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL STRUK PEMBAYARAN -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-warmBrown text-white p-4 flex justify-between items-center no-print">
+                <span class="font-bold font-heading">Struk Pembayaran Digital</span>
+                <button onclick="closeReceiptModal()" class="text-orange-200 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Printable Receipt Area -->
+            <div id="printable-receipt" class="p-6 overflow-y-auto bg-white font-mono text-xs text-gray-800 space-y-4">
+                <div class="text-center space-y-1 border-b border-dashed border-gray-300 pb-4">
+                    <h2 class="text-xl font-bold font-heading text-warmBrown tracking-wider">NATA BAKERY</h2>
+                    <p class="text-[10px] text-gray-500">Freshly Baked Everyday</p>
+                    <p class="text-[10px] text-gray-500">WA: 0812-6509-1984</p>
+                    <p class="text-[10px] text-gray-500">IG: @natta_bakery</p>
+                </div>
+
+                <!-- Meta Order -->
+                <div class="space-y-1 text-[11px] border-b border-dashed border-gray-300 pb-3">
+                    <div class="flex justify-between">
+                        <span>No. Struk:</span>
+                        <span id="receipt-id" class="font-bold">#NB-0000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Tanggal:</span>
+                        <span id="receipt-date">00/00/0000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Pelanggan:</span>
+                        <span id="receipt-customer" class="font-bold">Nama</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Metode:</span>
+                        <span id="receipt-method">Bayar</span>
+                    </div>
+                </div>
+
+                <!-- Items List -->
+                <div id="receipt-items" class="space-y-2 border-b border-dashed border-gray-300 pb-3">
+                    <!-- Dynamic -->
+                </div>
+
+                <!-- Total -->
+                <div class="space-y-1 text-sm pt-1">
+                    <div class="flex justify-between font-bold text-gray-900">
+                        <span>TOTAL</span>
+                        <span id="receipt-total">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-gray-500">
+                        <span>Status Pembayaran:</span>
+                        <span class="font-bold text-emerald-600">LUNAS / TERPROSES</span>
+                    </div>
+                </div>
+
+                <div class="text-center pt-4 border-t border-dashed border-gray-300 space-y-1">
+                    <p class="font-bold text-xs">Terima Kasih Atas Kunjungan Anda! ❤️</p>
+                    <p class="text-[10px] text-gray-400">Roti lezat siap menemani harimu.</p>
+                </div>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="p-4 bg-gray-50 border-t flex gap-2 no-print">
+                <button onclick="window.print()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-print"></i> Cetak Struk
+                </button>
+                <button onclick="sendReceiptToWhatsApp()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> Kirim WA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-warmBrown text-white px-6 py-3 rounded-2xl shadow-xl z-50 text-sm font-semibold hidden flex items-center gap-2 border border-orange-300">
+        <span id="toast-icon">✨</span>
+        <span id="toast-message">Pesan notifikasi</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DATA PRODUK KATALOG
+        const products = [
+            {
+                id: 1,
+                name: "Roti Sisir Mentega Keju",
+                category: "roti",
+                price: 18000,
+                image: "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?auto=format&fit=crop&w=600&q=80",
+                desc: "Roti sisir klasik super lembut bermeises & olesan mentega gurih dengan taburan keju melimpah."
+            },
+            {
+                id: 2,
+                name: "Cromboloni Cokelat Lumer",
+                category: "pastry",
+                price: 25000,
+                image: "https://images.unsplash.com/photo-1623334044303-241021148842?auto=format&fit=crop&w=600&q=80",
+                desc: "Pastry renyah melingkar dengan isian Belgian chocolate lumer yang melimpah di setiap gigitan."
+            },
+            {
+                id: 3,
+                name: "Bolu Gulung Pandan Srikaya",
+                category: "cake",
+                price: 45000,
+                image: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=600&q=80",
+                desc: "Bolu gulung lembut aroma daun pandan murni dengan isian selai srikaya istimewa Nata Bakery."
+            },
+            {
+                id: 4,
+                name: "Roti Sobek Abon Sapi Premium",
+                category: "roti",
+                price: 28000,
+                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80",
+                desc: "Roti sobek lembut isi mayo lezat dengan balutan abon sapi super gurih dan padat."
+            },
+            {
+                id: 5,
+                name: "Donat Kentang Gula Halus (isi 6)",
+                category: "pastry",
+                price: 20000,
+                image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=600&q=80",
+                desc: "Donat kentang tradisional super empuk bertabur gula halus dingin manis nikmat."
+            },
+            {
+                id: 6,
+                name: "Fudgy Brownies Shiny Crust",
+                category: "cake",
+                price: 55000,
+                image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80",
+                desc: "Brownies cokelat legit bernoda shiny crust dengan aneka topping almond, keju, dan chocochip."
+            }
+        ];
+
+        // STATE KERANJANG
+        let cart = [];
+        let currentOrder = null;
+
+        // RENDER PRODUK
+        function renderProducts(filter = 'all') {
+            const container = document.getElementById('product-grid');
+            container.innerHTML = '';
+
+            const filteredProducts = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            filteredProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl p-4 shadow-sm border border-orange-100 flex flex-col justify-between hover:shadow-md transition-all group";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative overflow-hidden rounded-2xl h-48 mb-4">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-warmOrange font-bold text-xs px-3 py-1 rounded-full shadow">
+                                ${product.category.toUpperCase()}
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-lg text-warmBrown font-heading mb-1">${product.name}</h3>
+                        <p class="text-xs text-gray-500 mb-4 line-clamp-2">${product.desc}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-100">
+                        <div>
+                            <span class="text-[10px] text-gray-400 block font-semibold">Harga</span>
+                            <span class="font-extrabold text-warmOrange text-base">Rp ${product.price.toLocaleString('id-ID')}</span>
+                        </div>
+                        <button onclick="addToCart(${product.id})" class="bg-orange-100 hover:bg-warmOrange text-warmOrange hover:text-white p-3 rounded-xl transition-colors flex items-center justify-center">
+                            <i class="fa-solid fa-plus text-sm"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // FILTER PRODUK
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-warmOrange', 'text-white');
+                btn.classList.add('bg-white', 'text-warmBrown');
+            });
+
+            event.target.classList.add('active', 'bg-warmOrange', 'text-white');
+            event.target.classList.remove('bg-white', 'text-warmBrown');
+
+            renderProducts(category);
+        }
+
+        // TAMBAH KE KERANJANG
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" ditambahkan ke keranjang! 🍞`, "🛒");
+        }
+
+        // UPDATE UI KERANJANG
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const totalEl = document.getElementById('cart-total');
+
+            // Total Qty
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalQty;
+
+            // Container Render
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-orange-200"></i>
+                        <p class="text-sm font-medium">Keranjang belanja kamu masih kosong nih.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '';
+                cart.forEach(item => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = "flex items-center justify-between p-3 bg-white rounded-2xl border border-gray-100 shadow-sm";
+                    itemEl.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover">
+                            <div>
+                                <h4 class="font-bold text-xs text-warmBrown leading-tight">${item.name}</h4>
+                                <span class="text-xs text-warmOrange font-bold">Rp ${(item.price * item.qty).toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs hover:bg-orange-100">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                            <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-xs hover:bg-orange-100">+</button>
+                        </div>
+                    `;
+                    container.appendChild(itemEl);
+                });
+            }
+
+            // Calculation
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            subtotalEl.innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+            totalEl.innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+        }
+
+        // UBAH QTY
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        // MODAL KERANJANG TOGGLE
+        function toggleCartModal() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // PROSES PEMBAYARAN & BUAT STRUK
+        function processPayment() {
+            if (cart.length === 0) {
+                showToast("Keranjang belanja masih kosong!", "⚠️");
+                return;
+            }
+
+            const name = document.getElementById('customer-name').value.trim();
+            const method = document.getElementById('payment-method').value;
+
+            if (!name) {
+                showToast("Mohon masukkan Nama Lengkap Anda!", "⚠️");
+                return;
+            }
+
+            if (!method) {
+                showToast("Pilih metode pembayaran terlebih dahulu!", "⚠️");
+                return;
+            }
+
+            // Generate Order Object
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const date = new Date();
+            const receiptId = 'NB-' + Math.floor(1000 + Math.random() * 9000);
+
+            currentOrder = {
+                id: receiptId,
+                date: date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}),
+                customer: name,
+                method: method,
+                items: [...cart],
+                total: total
+            };
+
+            // Render Receipt
+            document.getElementById('receipt-id').innerText = '#' + currentOrder.id;
+            document.getElementById('receipt-date').innerText = currentOrder.date;
+            document.getElementById('receipt-customer').innerText = currentOrder.customer;
+            document.getElementById('receipt-method').innerText = currentOrder.method;
+            
+            const receiptItemsContainer = document.getElementById('receipt-items');
+            receiptItemsContainer.innerHTML = '';
+            currentOrder.items.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex justify-between text-[11px]';
+                row.innerHTML = `
+                    <span>${item.name} x${item.qty}</span>
+                    <span class="font-bold">Rp ${(item.price * item.qty).toLocaleString('id-ID')}</span>
+                `;
+                receiptItemsContainer.appendChild(row);
+            });
+
+            document.getElementById('receipt-total').innerText = `Rp ${currentOrder.total.toLocaleString('id-ID')}`;
+
+            // Reset Cart & Close Cart Modal
+            cart = [];
+            updateCartUI();
+            document.getElementById('customer-name').value = '';
+            document.getElementById('payment-method').value = '';
+            toggleCartModal();
+
+            // Open Receipt Modal
+            document.getElementById('receipt-modal').classList.remove('hidden');
+            showToast("Pembayaran Berhasil Diproses! 🎉", "✅");
+        }
+
+        // CLOSE RECEIPT MODAL
+        function closeReceiptModal() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+        }
+
+        // KIRIM STRUK KE WHATSAPP
+        function sendReceiptToWhatsApp() {
+            if (!currentOrder) return;
+
+            let text = `*-- STRUK PEMBAYARAN NATA BAKERY --*\n`;
+            text += `No. Struk: #${currentOrder.id}\n`;
+            text += `Tanggal: ${currentOrder.date}\n`;
+            text += `Nama Pelanggan: ${currentOrder.customer}\n`;
+            text += `Metode Pembayaran: ${currentOrder.method}\n\n`;
+            text += `*DAFTAR PESANAN:*\n`;
+
+            currentOrder.items.forEach(item => {
+                text += `• ${item.name} (x${item.qty}) - Rp ${(item.price * item.qty).toLocaleString('id-ID')}\n`;
+            });
+
+            text += `\n*TOTAL: Rp ${currentOrder.total.toLocaleString('id-ID')}*\n`;
+            text += `\n_Mohon proses pesanan ini ya Nata Bakery, terima kasih!_`;
+
+            const encodedText = encodeURIComponent(text);
+            window.open(`https://wa.me/6281265091984?text=${encodedText}`, '_blank');
+        }
+
+        // TOAST NOTIFICATION
+        function showToast(message, icon = "✨") {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            document.getElementById('toast-icon').innerText = icon;
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // INIT ON LOAD
+        window.onload = function() {
+            renderProducts();
+        };
+    </script>
+</body>
+</html>
